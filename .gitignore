@@ -1,8 +1,16 @@
-
 # Playwright
 node_modules/
 /test-results/
+test-results/
+*.mp4
+*.webm
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+allure-results
+allure-report
+html-report
+package-lock.json
+package-lock
+.playwright-mcp
