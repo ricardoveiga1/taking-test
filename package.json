@@ -7,7 +7,11 @@
     "setup": "npm i && npm i -g ts-node && npx playwright install --with-deps",
     "ui:mode": "npx playwright test --ui",
     "show:report": "npx playwright show-report",
-    "test:all": "npx playwright test --headed"
+    "test:debug": "npx playwright test --debug",
+    "test:all": "npx playwright test",
+    "testHeaded:all": "npx playwright test --headed",
+    "taking:test:all": "npx playwright test tests/taking-test.spec.js",
+    "taking:test:headed": "npx playwright test tests/taking-test.spec.js --headed"
   },
   "keywords": [],
   "author": "",
