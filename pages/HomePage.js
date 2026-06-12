@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect } from "@playwright/test";
 
 export class HomePage {
   constructor(page) {
@@ -7,37 +7,51 @@ export class HomePage {
 
   async visit() {
     await this.page.goto("https://www.amazon.com.br/");
-    //const loginForm = this.page.locator('.login-form');
-    //await expect(loginForm).toBeVisible();
   }
 
   async searchProduct(productName) {
-    await this.page.locator('#twotabsearchtextbox').fill(productName);
-    await this.page.locator('#nav-search-submit-button').click();
+    await this.page.locator("#twotabsearchtextbox").fill(productName);
+    await this.page.locator("#nav-search-submit-button").click();
+    // Aguardar resultados carregarem com retry
+    await this.page.waitForTimeout(2000);
   }
 
-  this.name = this.page..getByRole("heading", {
-        label:
-          "Anúncio patrocinado – Monitor PC Gamer LG 24MS500 24” IPS 100Hz Full HD HDMI 2x",
-      })
-      .toHaveText(name)
+  async assertProduct(name, score, price) {
+    // Valida o nome do produto - buscar dentro do primeiro resultado
+    const firstProduct = this.page
+      .locator('div[data-component-type="s-search-result"]')
+      .first();
 
-   async assertproduct(name, score, price){
-    await this.page
-    //   .getByRole("heading", {
-    //     label:
-    //       "Anúncio patrocinado – Monitor PC Gamer LG 24MS500 24” IPS 100Hz Full HD HDMI 2x",
-    //   })
-    //   .toHaveText(name);
-    await this.page.locator("a-row a-size-small").toHaveText(score);
-    await this.page.locator("a-price-whole").toHaveText(price);
+    const productName = firstProduct
+      .getByRole("link")
+      .filter({ hasText: name })
+      .first();
 
-   }
+    await expect(productName).toBeVisible({ timeout: 10000 });
+    await expect(productName).toContainText(name);
+
+    // Valida o score/rating - usar seletor mais genérico
+    const ratingSpan = firstProduct
+      .locator("span")
+      .filter({ hasText: new RegExp(score.replace(",", ".")) })
+      .first();
+
+    await expect(ratingSpan).toBeVisible();
+    await expect(ratingSpan).toContainText(score);
+
+    // Valida o preço - usar seletor mais genérico
+    const priceSpan = firstProduct
+      .locator("span")
+      .filter({ hasText: new RegExp(price) })
+      .first();
+
+    await expect(priceSpan).toBeVisible();
+    await expect(priceSpan).toContainText(price);
+  }
 
   async submit(email, password) {
-    await this.page.getByPlaceholder('E-mail').fill(email);
-    await this.page.getByPlaceholder('Senha').fill(password);
-    await this.page.getByText('Entrar').click();
+    await this.page.getByPlaceholder("E-mail").fill(email);
+    await this.page.getByPlaceholder("Senha").fill(password);
+    await this.page.getByText("Entrar").click();
   }
 }
-

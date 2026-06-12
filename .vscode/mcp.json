@@ -1,0 +1,21 @@
+{
+    "servers": {
+        "playwright": {
+            "command": "npx",
+            "args": ["-y", "@playwright/mcp@latest"]
+        },
+        "playwright-extension": {
+            "command": "npx",
+            "args": ["@playwright/mcp@latest", "--extension"]
+        },
+        "git": {
+            "command": "uvx",
+            "args": ["mcp-server-git", "--repository", "${workspaceFolder}"]
+        },
+        "playwright-test": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["playwright", "run-test-mcp-server"]
+        }
+    }
+}

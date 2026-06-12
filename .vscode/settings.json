@@ -1,0 +1,37 @@
+{
+    "editor.fontSize": 14,
+
+    // Playwright Test Extension Configuration
+    "playwright.env": {
+        "TEST_ENV": "hml",
+        "HEADLESS": "false"
+    },
+
+    // Show test results inline in the editor
+    "playwright.showTrace": false,
+
+    // Enable test generation features
+    "playwright.showBrowser": true,
+
+    // Reuse browser between test runs
+    "playwright.reuseBrowser": false,
+
+    // Configs available for UI tests via the plugin
+    "playwright.configs": [
+        {
+            "config": "chrome.playwright.config.ts",
+            "label": "UI Tests (Chrome - HML)"
+        },
+        {
+            "config": "playwright.config.ts",
+            "label": "All Tests (UI + API)"
+        }
+    ],
+
+    // Highlight and show test decorations in editor
+    "testing.automaticallyOpenPeekView": "failureInVisibleDocument",
+    "testing.defaultGutterClickAction": "run",
+
+    // Optional: TypeScript support
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

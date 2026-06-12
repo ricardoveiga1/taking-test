@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Current File (HML UI Chrome)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+            "args": ["test", "${file}", "--config=chrome.playwright.config.ts", "--debug"],
+            "env": {
+                "TEST_ENV": "hml",
+                "HEADLESS": "false"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Debug Selected Test (HML UI Chrome)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+            "args": ["test", "${file}", "--config=chrome.playwright.config.ts", "--debug", "--grep=${selectedText}"],
+            "env": {
+                "TEST_ENV": "hml",
+                "HEADLESS": "false"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Debug API Project (HML)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+            "args": ["test", "--config=playwright.config.ts", "--project=apiPh", "--debug"],
+            "env": {
+                "TEST_ENV": "hml"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Debug Current File (PROD UI Chrome)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+            "args": ["test", "${file}", "--config=chrome.playwright.config.ts", "--debug"],
+            "env": {
+                "TEST_ENV": "prod",
+                "HEADLESS": "false"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        }
+    ]
+}
