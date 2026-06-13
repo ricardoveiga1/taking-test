@@ -11,6 +11,7 @@
     "test:all": "npx playwright test",
     "testHeaded:all": "npx playwright test --headed",
     "taking:test:all": "npx playwright test tests/taking-test.spec.js",
+    "trace:all": "npx playwright show-trace trace.zip",
     "taking:test:headed": "npx playwright test tests/taking-test.spec.js --headed"
   },
   "keywords": [],

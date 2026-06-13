@@ -6,52 +6,36 @@ export class HomePage {
   }
 
   async visit() {
-    await this.page.goto("https://www.amazon.com.br/");
+    await this.page.goto("/");
   }
 
   async searchProduct(productName) {
-    await this.page.locator("#twotabsearchtextbox").fill(productName);
-    await this.page.locator("#nav-search-submit-button").click();
-    // Aguardar resultados carregarem com retry
-    await this.page.waitForTimeout(2000);
+    const searchInput = this.page.locator("#twotabsearchtextbox");
+    await searchInput.fill(productName);
+    //expect(searchInput).toHaveText(productName);
+    await searchInput.press("Enter");
+
+    // Aguarda até que o primeiro resultado de busca seja visível
+    await this.page
+      .locator('div[data-component-type="s-search-result"]')
+      .first()
+      .waitFor();
   }
 
   async assertProduct(name, score, price) {
-    // Valida o nome do produto - buscar dentro do primeiro resultado
     const firstProduct = this.page
       .locator('div[data-component-type="s-search-result"]')
       .first();
 
-    const productName = firstProduct
-      .getByRole("link")
-      .filter({ hasText: name })
-      .first();
+    // Valida o título do produto
+    const productTitle = firstProduct.locator("h2");
+    await expect(productTitle).toContainText(name);
 
-    await expect(productName).toBeVisible({ timeout: 10000 });
-    await expect(productName).toContainText(name);
+    // Valida o score (ex: "3,8 de 5 estrelas")
+    await expect(firstProduct).toContainText(score);
 
-    // Valida o score/rating - usar seletor mais genérico
-    const ratingSpan = firstProduct
-      .locator("span")
-      .filter({ hasText: new RegExp(score.replace(",", ".")) })
-      .first();
-
-    await expect(ratingSpan).toBeVisible();
-    await expect(ratingSpan).toContainText(score);
-
-    // Valida o preço - usar seletor mais genérico
-    const priceSpan = firstProduct
-      .locator("span")
-      .filter({ hasText: new RegExp(price) })
-      .first();
-
-    await expect(priceSpan).toBeVisible();
-    await expect(priceSpan).toContainText(price);
-  }
-
-  async submit(email, password) {
-    await this.page.getByPlaceholder("E-mail").fill(email);
-    await this.page.getByPlaceholder("Senha").fill(password);
-    await this.page.getByText("Entrar").click();
+    // Valida o preço usando a classe padrão da Amazon
+    const priceContainer = firstProduct.locator(".a-price").first();
+    await expect(priceContainer).toContainText(price);
   }
 }
